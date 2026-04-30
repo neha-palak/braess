@@ -23,25 +23,26 @@ This single command runs the full pipeline — data preprocessing, equilibrium a
 
 ## Project Structure
 
-```
-├── data\                          # Input data
-│   ├── SiouxFalls_net.tntp        # Raw network file
-│   ├── SiouxFalls_trips.tntp      # Raw OD demand file
-│   ├── sioux_falls_net.csv        # Cleaned network (links, capacities, free-flow times)
-│   └── sioux_falls_trips.csv      # Cleaned OD matrix
+├── data/                          # Input datasets
+│   ├── SiouxFalls_net.tntp        # Original network file (TNTP format)
+│   ├── SiouxFalls_trips.tntp      # Original OD demand file
+│   ├── sioux_falls_net.csv        # Processed network (links, capacities, free-flow times)
+│   └── sioux_falls_trips.csv      # Processed OD matrix
 │
-├── scripts\                       # Source code
-│   ├── run_all.py                 # Entry point — runs the full pipeline
-│   ├── initial_equilibrium.py     # Data preprocessing + Frank-Wolfe UE assignment
-│   └── edge_simulation.py        # Candidate edge generation + Braess detection
+├── scripts/                       # Core implementation
+│   ├── run_all.py                 # Main pipeline (executes full workflow end-to-end)
+│   ├── initial_equilibrium.py     # Preprocessing + Frank–Wolfe user equilibrium assignment
+│   └── edge_simulation.py         # Candidate edge generation and Braess effect detection
 │
-└── outputs\                       # Auto-generated on each run
-    ├── traffic_log_<timestamp>.txt         # Frank-Wolfe convergence log
-    ├── braess_log_<timestamp>.txt          # Beta sweep experiment log
-    ├── summary_<timestamp>.txt            # Pipeline summary (TTT, best Braess case)
-    ├── initial_equilibrium_output.csv     # Equilibrium flows for all links
-    └── beta_sweep_results.csv             # TTT change for each candidate edge × beta
-```
+├── outputs/                       # Generated automatically per run
+│   ├── traffic_log.txt            # Frank–Wolfe convergence details
+│   ├── braess_log.txt             # β-sweep experiment logs
+│   ├── summary.txt                # Key results (TTT, worst-case edge, etc.)
+│   ├── initial_equilibrium_output.csv # Link-level equilibrium flows
+│   └── beta_sweep_results.csv         # ΔTTT for each edge–β combination
+│
+└── figures.ipynb                  # Visualization and result plots
+
 
 ---
 
