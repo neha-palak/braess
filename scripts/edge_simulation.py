@@ -1,7 +1,6 @@
 """
-=============================================================================
 Sioux Falls Braess Analysis
-=============================================================================
+
 Picks up from IE's handoff dict and covers:
   1. Add new edge(s) to the network
   2. Re-run Frank-Wolfe on the modified network
@@ -43,18 +42,14 @@ from initial_equilibrium import (
     EPSILON,
 )
 
-# ──────────────────────────────────────────────────────────────────────────────
 # HELPERS
-# ──────────────────────────────────────────────────────────────────────────────
 
 def clone_graph(G: nx.DiGraph) -> nx.DiGraph:
     """Deep-copy graph so experiments are fully independent."""
     return copy.deepcopy(G)
 
 
-# ──────────────────────────────────────────────────────────────────────────────
 # EDGE ADDITION
-# ──────────────────────────────────────────────────────────────────────────────
 
 def add_edge(G, u, v, capacity, free_flow_time, bidirectional=False):
     G.add_edge(u, v,
@@ -77,9 +72,7 @@ def add_edges_from_list(G, edge_list):
     return G
 
 
-# ──────────────────────────────────────────────────────────────────────────────
 # RUN MODIFIED NETWORK
-# ──────────────────────────────────────────────────────────────────────────────
 
 def run_modified(handoff, new_edges, verbose=False,
                  bpr_beta=None, bpr_alpha=None):
@@ -122,9 +115,7 @@ def run_modified(handoff, new_edges, verbose=False,
     }
 
 
-# ──────────────────────────────────────────────────────────────────────────────
 # BRAESS DETECTION
-# ──────────────────────────────────────────────────────────────────────────────
 
 def detect_braess(handoff, modified, threshold_pct=0.5):
     """
@@ -144,9 +135,7 @@ def detect_braess(handoff, modified, threshold_pct=0.5):
     }
 
 
-# ──────────────────────────────────────────────────────────────────────────────
 # CANDIDATE EDGE DESIGN
-# ──────────────────────────────────────────────────────────────────────────────
 
 def design_braess_candidates(handoff):
     """
@@ -188,9 +177,7 @@ def design_braess_candidates(handoff):
     return candidates
 
 
-# ──────────────────────────────────────────────────────────────────────────────
 # BETA SWEEP
-# ──────────────────────────────────────────────────────────────────────────────
 
 def beta_sweep(handoff, candidates, beta_values=None, verbose=False):
     """
@@ -234,7 +221,7 @@ def beta_sweep(handoff, candidates, beta_values=None, verbose=False):
                 continue
 
             verdict = detect_braess(handoff, mod, threshold_pct=0.5)
-            flag    = "⚠  BRAESS" if verdict["braess_detected"] else "✓  ok"
+            flag    = "⚠  BRAESS" if verdict["braess_detected"] else "not braess"
 
             print(f"  [{done:>3}/{total}]  {u:>2}→{v:<2}  "
                   f"Δ={verdict['pct_change']:+.3f}%  {flag}")
@@ -281,9 +268,7 @@ def beta_sweep(handoff, candidates, beta_values=None, verbose=False):
     return df
 
 
-# ──────────────────────────────────────────────────────────────────────────────
 # SINGLE EDGE DEEP DIVE
-# ──────────────────────────────────────────────────────────────────────────────
 
 def single_edge_deep_dive(handoff, edge, beta=BPR_BETA):
     """
@@ -334,9 +319,7 @@ def single_edge_deep_dive(handoff, edge, beta=BPR_BETA):
 
 def run_braess_pipeline(handoff: dict):
 
-    print("\n" + "█" * 65)
     print("  BRAESS PARADOX ANALYSIS")
-    print("█" * 65)
 
     # Step 1: Design candidates using actual network statistics
     candidates = design_braess_candidates(handoff)

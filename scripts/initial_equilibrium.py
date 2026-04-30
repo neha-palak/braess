@@ -1,8 +1,6 @@
 """
-=============================================================================
 Sioux Falls Traffic Assignment
-=============================================================================
-Covers:
+This module covers:
   1. Load & clean network + OD demand from CSV
   2. Build directed NetworkX graph
   3. BPR latency function
@@ -10,7 +8,7 @@ Covers:
   5. Run until convergence (gap < epsilon)
   6. Report equilibrium flows and total travel time
   7. Export results for Braess analysis
-=============================================================================
+
 """
 
 import numpy as np
@@ -20,9 +18,7 @@ import time
 import warnings
 warnings.filterwarnings("ignore")
 
-# ──────────────────────────────────────────────────────────────────────────────
-# 0.  CONFIGURATION
-# ──────────────────────────────────────────────────────────────────────────────
+# CONFIGURATION
 
 NET_CSV   = "data/sioux_falls_net.csv"
 TRIPS_CSV = "data/sioux_falls_trips.csv"
@@ -34,9 +30,7 @@ EPSILON   = 5e-4
 VERBOSE   = True
 
 
-# ──────────────────────────────────────────────────────────────────────────────
 # 1.  DATA LOADING
-# ──────────────────────────────────────────────────────────────────────────────
 
 def load_network(path: str) -> pd.DataFrame:
     """Load and validate the network CSV."""
@@ -92,9 +86,7 @@ def load_trips(path: str) -> pd.DataFrame:
     return df
 
 
-# ──────────────────────────────────────────────────────────────────────────────
 # 2.  GRAPH CONSTRUCTION
-# ──────────────────────────────────────────────────────────────────────────────
 
 def build_graph(net_df: pd.DataFrame) -> nx.DiGraph:
     """Build a directed NetworkX graph from the network DataFrame."""
@@ -112,9 +104,7 @@ def build_graph(net_df: pd.DataFrame) -> nx.DiGraph:
     return G
 
 
-# ──────────────────────────────────────────────────────────────────────────────
 # 3.  BPR LATENCY FUNCTION
-# ──────────────────────────────────────────────────────────────────────────────
 
 def bpr_travel_time(free_flow_time: float,
                     capacity: float,
@@ -145,11 +135,9 @@ def beckmann_integral(free_flow_time: float,
     )
 
 
-# ──────────────────────────────────────────────────────────────────────────────
 # 4.  TRAFFIC ASSIGNMENT CORE (Frank-Wolfe)
-#     NOTE: alpha and beta are explicit parameters throughout so Ved's module
+#     NOTE: alpha and beta are explicit parameters throughout so later module
 #           can sweep beta values without any global variable tricks.
-# ──────────────────────────────────────────────────────────────────────────────
 
 def update_edge_weights(G: nx.DiGraph,
                         alpha: float = BPR_ALPHA,
@@ -267,13 +255,10 @@ def frank_wolfe(G: nx.DiGraph,
     alpha and beta are explicit parameters so Ved can sweep beta values
     without touching module globals — the original source of the bug.
     """
-    print("\n" + "═" * 60)
     print("  FRANK-WOLFE USER EQUILIBRIUM ASSIGNMENT")
-    print("═" * 60)
     print(f"  Max iterations : {max_iter}")
     print(f"  Convergence ε  : {epsilon:.2e}")
     print(f"  BPR (α, β)     : ({alpha}, {beta})")
-    print("─" * 60)
 
     # Initialise with free-flow AON
     for u, v, data in G.edges(data=True):
@@ -346,9 +331,7 @@ def frank_wolfe(G: nx.DiGraph,
     }
 
 
-# ──────────────────────────────────────────────────────────────────────────────
 # 5.  RESULTS & REPORTING
-# ──────────────────────────────────────────────────────────────────────────────
 
 def compute_total_travel_time(G: nx.DiGraph) -> float:
     """Total system travel time = Σ_a t_a(x_a) * x_a."""
@@ -415,17 +398,13 @@ def export_for_braess(G: nx.DiGraph,
     return handoff
 
 
-# ──────────────────────────────────────────────────────────────────────────────
 # 6.  MAIN PIPELINE
-# ──────────────────────────────────────────────────────────────────────────────
 
 def run_traffic_pipeline(net_csv: str   = NET_CSV,
                       trips_csv: str = TRIPS_CSV) -> dict:
     """End-to-end pipeline. Returns the handoff dict for further analysis."""
 
-    print("\n" + "█" * 60)
     print("  SIOUX FALLS TRAFFIC SIMULATION")
-    print("█" * 60 + "\n")
 
     net_df   = load_network(net_csv)
     trips_df = load_trips(trips_csv)
@@ -433,10 +412,8 @@ def run_traffic_pipeline(net_csv: str   = NET_CSV,
     result   = frank_wolfe(G, trips_df)
     ttt      = compute_total_travel_time(G)
 
-    print(f"  ╔══════════════════════════════════════╗")
-    print(f"  ║  TOTAL SYSTEM TRAVEL TIME            ║")
-    print(f"  ║  TTT = {ttt:>28,.4f}  ║")
-    print(f"  ╚══════════════════════════════════════╝\n")
+    print(f"TOTAL SYSTEM TRAVEL TIME:")
+    print(f"TTT = {ttt:>28,.4f}")
 
     summary_df = flow_summary(G)
     print_top_congested(summary_df)
@@ -453,16 +430,12 @@ def run_traffic_pipeline(net_csv: str   = NET_CSV,
 
     handoff = export_for_braess(G, summary_df, net_df, trips_df, ttt)
 
-    print("\n" + "█" * 60)
-    print("  TRAFFIC PIPELINE COMPLETE — READY FOR BRAESS ANALYSIS")
-    print("█" * 60 + "\n")
+    print("  TRAFFIC PIPELINE COMPLETE")
 
     return handoff
 
 
-# ──────────────────────────────────────────────────────────────────────────────
-# 7.  UTILITY HELPERS (exposed for Ved)
-# ──────────────────────────────────────────────────────────────────────────────
+# 7.  UTILITY HELPERS
 
 def rebuild_graph_from_csv(net_csv: str) -> tuple:
     """Convenience: reload net + trips CSVs and build a fresh graph."""

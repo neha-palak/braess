@@ -1,19 +1,11 @@
-
-████████████████████████████████████████████████████████████
   SIOUX FALLS TRAFFIC SIMULATION
-████████████████████████████████████████████████████████████
-
 [NET ] Loaded 76 directed links (24 unique origins, 24 unique destinations)
 [OD  ] Loaded 528 OD pairs, total demand = 360,600.0 vehicles
 [GRAPH] Built DiGraph: 24 nodes, 76 edges
-
-════════════════════════════════════════════════════════════
   FRANK-WOLFE USER EQUILIBRIUM ASSIGNMENT
-════════════════════════════════════════════════════════════
   Max iterations : 1500
   Convergence ε  : 5.00e-04
   BPR (α, β)     : (0.15, 5.0)
-────────────────────────────────────────────────────────────
   Iter    1 | Gap = 0.97698269 | Z = 58,221,365.0047
   Iter    2 | Gap = 0.82717077 | Z = 14,710,951.9096
   Iter    3 | Gap = 0.55416989 | Z = 9,693,153.4074
@@ -477,14 +469,11 @@
 
   ✓ Converged at iteration 460  (gap = 4.68e-04)
 
-  Elapsed time : 3.96 s
+  Elapsed time : 4.13 s
 ════════════════════════════════════════════════════════════
 
-  ╔══════════════════════════════════════╗
-  ║  TOTAL SYSTEM TRAVEL TIME            ║
-  ║  TTT =              10,388,669.0964  ║
-  ╚══════════════════════════════════════╝
-
+TOTAL SYSTEM TRAVEL TIME:
+TTT =              10,388,669.0964
 ────────────────────────────────────────────────────────────
   Top 10 Most Congested Links (by V/C ratio)
 ────────────────────────────────────────────────────────────
@@ -511,8 +500,4 @@
     Total travel time : 10,388,669.0964 veh·hr
 
 [EXPORT] Equilibrium flows saved → outputs/initial_equilibrium_output.csv
-
-████████████████████████████████████████████████████████████
-  TRAFFIC PIPELINE COMPLETE — READY FOR BRAESS ANALYSIS
-████████████████████████████████████████████████████████████
-
+  TRAFFIC PIPELINE COMPLETE

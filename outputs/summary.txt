@@ -1,0 +1,11 @@
+FULL PIPELINE SUMMARY
+Initial Total Travel Time: 10388669.0964
+
+Best Braess case:
+Edge: 16 → 20
+Beta: 6.0
+Increase: 50.570%
+
+Logs:
+Initial Equilibrium: outputs/traffic_log.txt
+Braess Analysis:  outputs/braess_log.txt

@@ -11,15 +11,13 @@ if __name__ == "__main__":
 
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
-    traffic_log_path    = f"outputs/traffic_log_{timestamp}.txt"
-    braess_log_path     = f"outputs/braess_log_{timestamp}.txt"
-    summary_log_path = f"outputs/summary_{timestamp}.txt"
+    traffic_log_path    = f"outputs/traffic_log.txt"
+    braess_log_path     = f"outputs/braess_log.txt"
+    summary_log_path = f"outputs/summary.txt"
 
     summary_data = {}
 
-    # =========================
     # 1. RUN TRAFFIC MODULE
-    # =========================
     print("\nRunning traffic simulation...\n")
 
     with open(traffic_log_path, "w") as f:
@@ -39,9 +37,7 @@ if __name__ == "__main__":
 
     print(f"Traffic simulation complete → {traffic_log_path}")
 
-    # =========================
     # 2. RUN BRAESS MODULE
-    # =========================
     print("\nRunning Braess analysis...\n")
 
     with open(braess_log_path, "w") as f:
@@ -59,14 +55,11 @@ if __name__ == "__main__":
 
     print(f"Braess analysis complete → {braess_log_path}")
 
-    # =========================
     # 3. SUMMARY
-    # =========================
     print("\n Writing summary...\n")
 
     with open(summary_log_path, "w") as f:
         f.write("FULL PIPELINE SUMMARY\n")
-        f.write("=" * 50 + "\n\n")
 
         if "ttt_before" in summary_data:
             f.write(f"Initial Total Travel Time: {summary_data['ttt_before']:.4f}\n")
