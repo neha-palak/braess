@@ -1,5 +1,6 @@
 # Braess's Paradox in Transportation Networks
 **CS-4231: Graph Theory and Network Sciences — Spring 2026**
+
 Neha Palak · Ved Parekh
 
 ---
@@ -62,18 +63,6 @@ This single command runs the full pipeline — data preprocessing, equilibrium a
 
 ---
 
-## Key Results
-
-| | |
-|---|---|
-| Baseline TTT | 10,388,669 veh·min |
-| Braess case detected | Edge 16 → 20 at β = 6.0 |
-| TTT increase | +50.57% (to 15,642,177 veh·min) |
-| Braess cases at β = 4.0 | 0 / 10 |
-| Braess cases at β = 5.0 | 0 / 10 |
-| Braess cases at β = 6.0 | 1 / 10 |
-
----
 
 ## Dependencies
 
